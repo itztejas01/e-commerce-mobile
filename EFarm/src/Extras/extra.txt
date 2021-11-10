@@ -1,0 +1,38 @@
+{productsFiltered.length > 0 ? (
+            productsFiltered.map((item)=>{
+                <List>
+                <ListItem key={item._id.$oid}
+                avatar
+                >
+                    <Left>
+                        <Thumbnail 
+                        source={{uri:item.image ? item.image : 'https://source.unsplash.com/1600x900/?random,image'}}
+                        />
+                    </Left>
+                    <Body>
+                        <Text style={{color:'black'}}>{item.name}</Text>
+                        <Text note>{item.description}</Text>
+                    </Body>
+                </ListItem>
+               
+                </List>
+                // console.log('item',item)
+            })
+        ):(
+            <View style={styles.center}>
+            <Text style={{textAlign:'center', color:"white"}}>No Products found of selected Criteria</Text>
+            </View>
+        )}
+
+
+        <List dataArray={productsFiltered}
+        renderRow={(item)=>{
+            <ListItem key={item._id.$oid} avatar>
+                <Thumbnail
+                source={{uri: item.image}}
+                />
+            </ListItem>
+        }}
+
+         >
+        </List>
