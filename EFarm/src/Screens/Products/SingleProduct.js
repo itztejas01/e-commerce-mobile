@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import { View, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import { Left, Right,Text, Container, H1 } from 'native-base'
-
+import { connect } from 'react-redux'
+import * as actions from '../../Redux/Actions/cartActions'
 
 function SingleProduct(props) {
     const [item, setItem] = useState(props.route.params.item);
@@ -31,7 +32,12 @@ function SingleProduct(props) {
                 <Text style={styles.price}>Rs.{item.price}</Text>
             </Left>
             <Right>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity
+                style={styles.button}
+                onPress={()=>{
+                    props.addItemsToCart(item)
+                }}
+                >
                     <Text style={styles.btnText}>Add</Text>
                 </TouchableOpacity>
             </Right>
@@ -100,4 +106,12 @@ const styles = StyleSheet.create({
 
 })
 
-export default SingleProduct
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        addItemsToCart:(product) =>
+            dispatch(actions.addToCart({quantity:1, product}))
+        
+    }
+} 
+
+export default connect(null,mapDispatchToProps) (SingleProduct)

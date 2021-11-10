@@ -19,7 +19,7 @@ function SearchProducts(props) {
       <Content style={{width: width}} padder>
      {productsFiltered.length > 0 ? (
             productsFiltered.map((item)=>{
-                console.log(item._id.$oid)
+                // console.log(item._id.$oid)
                 return(
                 <List>
                 <ListItem

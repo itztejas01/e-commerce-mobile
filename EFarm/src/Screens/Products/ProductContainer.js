@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet,View, ActivityIndicator, FlatList, ScrollView, Dimensions} from 'react-native';
+import {StyleSheet,View, ScrollView, Dimensions} from 'react-native';
 import {
 Container,
   Header,
@@ -7,8 +7,6 @@ Container,
   Item,
   Input,
   Text,
-  NativeBaseProvider,
-  extendTheme,
 } from 'native-base';
 import ProductList from './ProductList';
 import SearchProducts from './SearchProducts'
@@ -78,7 +76,6 @@ const changeCategory = (ctg) => {
         ),
       ];
   }
-  // console.log('products categories are: ',setProductsCategories)
 }
 
   return (
