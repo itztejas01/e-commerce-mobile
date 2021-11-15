@@ -3,9 +3,10 @@ import { TextInput, StyleSheet } from 'react-native'
 
 
 function Input(props) {
+    // console.log("props", props.onblur)
     return (
        <TextInput
-       style={styles.input}
+       style={[styles.input, props.style]}
        placeholder={props.placeholder}
        name={props.name}
        placeholderTextColor='black'
@@ -16,6 +17,8 @@ function Input(props) {
        onFocus={props.onFocus}
        secureTextEntry={props.secureTextEntry}
        keyboardType={props.keyboardType}
+       onBlur={props.onblur}
+       maxLength={props.maxLength}
        
        />
     );
@@ -30,7 +33,7 @@ const styles = StyleSheet.create({
         borderRadius:10,
         padding:10,
         borderWidth:2,
-        borderColor:'orange',
+        // borderColor:'orange',
         color:'black'
     },
 })

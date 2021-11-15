@@ -26,6 +26,9 @@ function SingleProduct(props) {
                     <Text style={styles.contentText}>{item.brand}</Text>
                 </View>
                 {/* Todo : Description, rich Description and Availabilty */}
+                <View style={styles.contentContainer}>
+                    <Text style={styles.contentText}>{item.description}</Text>
+                </View>
            </ScrollView>
            <View style={styles.bottomContainer}>
             <Left>
