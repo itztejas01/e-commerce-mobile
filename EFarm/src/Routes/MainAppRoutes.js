@@ -1,27 +1,31 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createStackNavigator } from '@react-navigation/stack'
 import { View } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import HomeNavigators from './HomeNavigators'
 import CartNavigators from './CartNavigators'
 import CartIcon from '../Components/CartIcon'
+import SplashScreen from '../Screens/SplashScreen'
 
 
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-
-function MainAppRoutes() {
+function TabStack() {
     return (
         <Tab.Navigator
         initialRouteName="Home"
         tabBarOptions={{
-            KeyboardHidesTabBar:true,
             showLabel:false,
-            activeTintColor:'#e91e63'
+            activeTintColor:'#e91e63',    
+        }}
+        screenOptions={{
+            tabBarHideOnKeyboard:true
         }}
         >
-            <Tab.Screen name="Home" component={HomeNavigators} 
+            <Tab.Screen name="HomeScreen" component={HomeNavigators} 
             options={{
                 headerShown:false,
                 tabBarIcon:({color}) =>(
@@ -36,7 +40,7 @@ function MainAppRoutes() {
             />
 
             <Tab.Screen 
-            name="Cart" 
+            name="CartScreen" 
             component={CartNavigators} 
             options={{
                 headerShown:false,
@@ -91,6 +95,19 @@ function MainAppRoutes() {
 
         
     )
+}
+
+function MainAppRoutes() {
+    return(
+        <Stack.Navigator screenOptions={{
+            headerShown:false
+        }}>
+            <Stack.Screen name="Splash" component={SplashScreen} />
+            <Stack.Screen name="TabScreen" component={TabStack} />
+        </Stack.Navigator>
+    )
+
+    
 }
 
 export default MainAppRoutes

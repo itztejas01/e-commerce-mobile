@@ -20,6 +20,9 @@ function Checkout(props) {
     const [user, setUser] = useState()
     const [phoneError, setPhoneError] = useState()
     const [addressError, setAddressError] = useState()
+    const [zipError, setZipError] = useState()
+    const [cityError, setCityError] = useState()
+    const [countryError, setCountryError] = useState()
 
     
 
@@ -45,12 +48,48 @@ function Checkout(props) {
             setPhoneError()
         }
     }if(type==="address"){
+       
         if(text===""){
+            setAddressError(false)
+        }
+        else{
+            setAddressError(true)
+        }
+    }
+    if(type==="address2"){
+        if(text===''){
             setAddressError(false)
         }else{
             setAddressError(true)
         }
-    }}
+    }
+    if(type==="zip"){
+        let val = /^[1-9][0-9]{5}$/
+        if (val.test(text)){
+            setZipError(true)
+        }else{
+            setZipError()
+        }
+    }
+    if(type==='city'){
+        let val = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/
+        if(val.test(text)){
+            setCityError(true)
+        }else{
+            setCityError()
+        }
+    }
+    if(type==="country"){
+        let val = /[a-zA-Z]{2,}/
+        if (val.test(text)){
+            setCountryError(true)
+        }else{
+            setCountryError()
+        }
+    }
+
+
+}
 
     const checkoutValid = () =>{
         let order={
@@ -64,10 +103,16 @@ function Checkout(props) {
             zip,
         }
 
-        if(city !==undefined && phoneError!==undefined  && country!==undefined && phone!==undefined && shippingAddress!==undefined && zip !==undefined && shippingAddress2!==undefined ){
+        if(city !==undefined && country!==undefined && zipError!==undefined && phoneError!==undefined && phone!==undefined && shippingAddress!==undefined && zip !==undefined && shippingAddress2!==undefined ){
             console.log('variable not found',phoneError)
             props.navigation.navigate("Payment", {order:order})
-        }else{
+        }if(!phoneError){
+            Alert.alert('Field','Please enter proper phone number')
+        }
+        if(!zipError){
+            Alert.alert('Field','Please enter proper zip code')
+        }
+        else{
             Alert.alert('Field','Please enter all the field')
         }
        
@@ -107,7 +152,7 @@ function Checkout(props) {
                 value={shippingAddress2}
                 onChangeText={(text)=>{
                     setShippingAddress2(text)
-                    validation(text, "address")
+                    validation(text, "address2")
                 }} 
                 style={[!addressError ? styles.error: styles.success]} 
                 />
@@ -115,44 +160,27 @@ function Checkout(props) {
                 placeholder={'City'}
                 name={'city'}
                 value={city}
-                onChangeText={(text)=>setCity(text)}  
+                onChangeText={(text)=>{setCity(text),validation(text,'city')}}  
+                style={[!cityError ? styles.error: styles.success]} 
                 />
                 <Input
                 placeholder={'Pincode'}
                 name={'zip'}
                 value={zip}
+                maxLength={6}
                 keyboardType={'numeric'}
-                onChangeText={(text)=>setZip(text)}  
+                onChangeText={(text)=>{setZip(text), validation(text,'zip')}} 
+                style={[!zipError ? styles.error: styles.success]}  
                 />
 
                 <Input
                 placeholder={'country'}
                 name={"Country"}
                 value={country}
-                onChangeText={(text)=>setCountry(text)}
-                
-                />
-                
-                    {/* <Picker
-                    mode='dropdown'
-                    iosIcon={<Icon name='arrow-down' color={'#007aff'} />}
-                    style={{width: undefined}}
-                    selectedValue={country}
-                    placeholder='Select your Country'
-                    placeholderStyle={{color:'#007aff'}}
-                    placeholderIconColor='#007aff'
-                    onValueChange={(e)=>setCountry(e)}
-                    
-                    >
-                        {countries.map((c)=>{
-                            return <Picker.Item key={c.code} 
-                                                label={c.name} 
-                                                value={c.name}
+                onChangeText={(text)=>{setCountry(text),validation(text, 'country')}}
 
-                                                />
-                        })}
-                    </Picker> */}
-                
+                style={[!countryError ? styles.error: styles.success]} 
+                />                
                 <View style={{width:'80%', alignItems:'center'}}>
                         <TouchableOpacity style={{backgroundColor:'green', width:100, height:50}} onPress={()=>checkoutValid()}>
                             <Text style={{marginTop:10,textAlign:'center',color:'white'}}>Confirm</Text>
