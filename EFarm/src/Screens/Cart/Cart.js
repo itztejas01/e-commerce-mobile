@@ -36,14 +36,19 @@ function Cart(props) {
                     })} */}
                     <SwipeListView
                     data = {props.cartItems}
-                    renderItem={(data) => {
-                        console.log('data are: ',data)
-                        // <CartItems item={item} />
+                    renderItem={(data) => (
+                        // console.log('data are: ',data)
+                        <CartItems item={data} />
                         
-                    }}
+                    )}
                     renderHiddenItem={(data)=>(
-                        <View>
-                            <TouchableOpacity>
+                        <View style={styles.hiddenContainer}>
+                            <TouchableOpacity 
+                            style={styles.hiddenButton}
+                            onPress={()=>{
+                                props.removeFromCart(data.item)
+                            }}
+                            >
                                 <Icon name="trash" color={"white"} size={30} />
                             </TouchableOpacity>
                         </View>
@@ -108,6 +113,19 @@ const styles = StyleSheet.create({
         fontSize:16,
         padding:20,
         color:'red'
+    },
+    hiddenContainer:{
+        flex:1,
+        justifyContent:'flex-end',
+        flexDirection:'row'
+    },
+    hiddenButton:{
+        backgroundColor:'red',
+        justifyContent:'center',
+        alignItems:'flex-end',
+        paddingRight:20,
+        height:70,
+        width:width /1.2
     }
 
 })
@@ -121,7 +139,8 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) =>{
     return{
-        clearCart: () => dispatch(actions.clearCart())
+        clearCart: () => dispatch(actions.clearCart()),
+        removeFromCart: (item) => dispatch(actions.removeFromCart(item))
     }
 }
 

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet,View, ActivityIndicator, FlatList, ScrollView, Dimensions} from 'react-native';
+import {StyleSheet,View, ScrollView, Dimensions, TouchableOpacity} from 'react-native';
 import {
 Container,
   Header,
@@ -7,13 +7,12 @@ Container,
   Item,
   Input,
   Text,
-  NativeBaseProvider,
-  extendTheme,
 } from 'native-base';
 import ProductList from './ProductList';
 import SearchProducts from './SearchProducts'
 import Banner from '../../Components/Banner'
 import CategoriesFilter from './CategoriesFilter'
+import { connect } from 'react-redux'
 
 
 
@@ -30,6 +29,7 @@ function ProductContainer(props) {
   const [productsCategories, setProductsCategories] = useState([]);
   const [active,setActive] = useState();
   const [initialState, setInitialState] = useState([]);
+  const [text, setText] = useState('')
 
 
   useEffect(() => {
@@ -56,6 +56,7 @@ function ProductContainer(props) {
    setProductsFiltered(
      products.filter((i) => i.name.toLowerCase().includes(text.toLowerCase()))
    )
+   setText(text)
  }
  const openList = () => {
    setFocus(true);
@@ -63,6 +64,8 @@ function ProductContainer(props) {
 
  const onBlur = () => {
    setFocus(false);
+   setText('')
+
  }
 
 //  categories 
@@ -78,7 +81,6 @@ const changeCategory = (ctg) => {
         ),
       ];
   }
-  // console.log('products categories are: ',setProductsCategories)
 }
 
   return (
@@ -93,10 +95,14 @@ const changeCategory = (ctg) => {
           onChangeText = {(text) =>
             // console.log('value types:',text)
             searchProduct(text)
-          } 
+            
+          }
+          value={text}
           />
           {focus === true ? (
-            <Icon onPress={onBlur} name="ios-close" />
+            <TouchableOpacity onPress={onBlur}>
+            <Icon name="ios-close" />
+            </TouchableOpacity>
           ):null}
         </Item>
       </Header>
@@ -171,5 +177,7 @@ const styles = StyleSheet.create({
     alignItems:'center'
   }
 });
+
+
 
 export default ProductContainer;
