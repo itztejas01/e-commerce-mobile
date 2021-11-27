@@ -11,9 +11,8 @@ function MyStack() {
            <Stack.Screen
            name="Cart"
            component={Cart}
-
-           
            />
+           
            <Stack.Screen
            name="Checkout"
            component={Cart}
